@@ -55,6 +55,15 @@
             <tfoot></tfoot>
         </table>
 
-        <script src="app/index.js"></script>
+        <script src="app/domain/trading/Trading.js"></script>
+
+        <script>
+            var n1 = new Trading( new Date (), 5, 700 );
+            n1.quantity = 1000;
+            console.log( n1.quantity );
+            console.log( n1.date );
+            console.log( n1.value );
+            console.log( n1.volume );
+        </script>
     </body>
 </html>
