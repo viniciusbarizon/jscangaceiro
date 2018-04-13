@@ -56,18 +56,7 @@
         </table>
 
         <script src="app/domain/trading/Trading.js"></script>
-
-        <script>
-            var today = new Date();
-            var n1 = new Trading( today, 5, 700 );
-
-            console.log( n1.date );
-            today.setDate( 11 ); // it is not possible to change the date.
-
-            console.log( n1.quantity );
-            console.log( n1.date );
-            console.log( n1.value );
-            console.log( n1.volume );
-        </script>
+        <script src="app/controllers/TradingController.js"></script>
+        <script src="app/app.js"></script>
     </body>
 </html>
