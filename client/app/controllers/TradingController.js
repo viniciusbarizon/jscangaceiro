@@ -11,18 +11,14 @@ class TradingController {
     add( event ) {
         event.preventDefault();
 
-        let date = new Date(...
-            this._inputDate.value
-            .split('-')
-            .map( ( item, index ) => item - index % 2 )
-        );
-
         let trading = new Trading(
-            date,
+            DateConverter.toDate( this._inputDate.value ),
             parseInt( this._inputQuantity.value ),
             parseFloat( this._inputValue.value )
         );
+        console.log(trading);
 
-        console.log( trading );
+        let dayMonthYear = DateConverter.toText( trading.date );
+        console.log( dayMonthYear );
     }
 }
