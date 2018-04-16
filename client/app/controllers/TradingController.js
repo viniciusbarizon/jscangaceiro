@@ -11,13 +11,18 @@ class TradingController {
     add( event ) {
         event.preventDefault();
 
-        let date = new Date( this._inputDate.value.replace(/-/g, ',') );
-        console.log(date);
+        let date = new Date(...
+            this._inputDate.value
+            .split('-')
+            .map( ( item, index ) => item - index % 2 )
+        );
 
         let trading = new Trading(
-            new Date( this._inputDate.value.split('-') ),
+            date,
             parseInt( this._inputQuantity.value ),
             parseFloat( this._inputValue.value )
         );
+
+        console.log( trading );
     }
 }
