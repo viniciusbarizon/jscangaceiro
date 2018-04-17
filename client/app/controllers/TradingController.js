@@ -1,24 +1,35 @@
 class TradingController {
     constructor() {
         // doing the bind, $ keep document as his context.
-        let $ = document.querySelector.bind( document );
+        let $ = document.querySelector.bind(document);
 
-        this._inputDate = $( '#date' );
-        this._inputQuantity = $( '#quantity' );
-        this._inputValue = $( '#value' );
+        this._inputDate = $('#date');
+        this._inputQuantity = $('#quantity');
+        this._inputValue = $('#value');
+
+        this._tradings = new Tradings();
     }
 
     add( event ) {
         event.preventDefault();
+        this._tradings.add(this._create());
+        this.cleanForm();
+    }
 
-        let trading = new Trading(
-            DateConverter.toDate( this._inputDate.value ),
-            parseInt( this._inputQuantity.value ),
-            parseFloat( this._inputValue.value )
+    cleanForm() {
+        this._inputDate.value = '';
+        this._inputQuantity.value = 1;
+        this._inputValue.value = 0.0;
+
+        this._inputDate.focus();
+    }
+
+    _create() {
+        // returns a new Trading instance.
+        return new Trading(
+            DateConverter.toDate(this._inputDate.value),
+            parseInt(this._inputQuantity.value),
+            parseFloat(this._inputValue.value)
         );
-        console.log(trading);
-
-        let dayMonthYear = DateConverter.toText( trading.date );
-        console.log( dayMonthYear );
     }
 }
