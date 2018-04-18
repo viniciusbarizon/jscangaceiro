@@ -8,11 +8,19 @@ class TradingController {
         this._inputValue = $('#value');
 
         this._tradings = new Tradings();
+
+        this._tradingsView = new TradingsView('#tradings');
+
+        // updating the view.
+        this._tradingsView.update(this._tradings);
     }
 
     add( event ) {
         event.preventDefault();
+
         this._tradings.add(this._create());
+        this._tradingsView.update(this._tradings);
+
         this.cleanForm();
     }
 

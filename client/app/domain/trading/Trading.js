@@ -5,19 +5,19 @@ class Trading {
         Object.freeze( this );
     }
 
-    get volume () {
+    get volume() {
         return this._quantity * this._value;
     }
 
-    get date () {
+    get date() {
         return this._date;
     }
 
-    get quantity () {
+    get quantity() {
         return this._quantity;
     }
 
-    get value () {
+    get value() {
         return this._value;
     }
 }

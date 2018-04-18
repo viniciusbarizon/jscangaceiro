@@ -32,7 +32,7 @@
 
         <div class="text-center">
             <button id="button-import" class="btn btn-primary text-center" type="button">
-                Import Trading
+                Import Tradings
             </button>
 
             <button id="button-clear" class="btn btn-primary text-center" type="button">
@@ -40,25 +40,15 @@
             </button>
         </div>
 
-        <br><br>
+        <br>
 
-        <table class="table table-hover table-bordered">
-            <thead>
-                <th>DATE</th>
-                <th>QUANTITY</th>
-                <th>VALUE</th>
-                <th>VOLUME</th>
-            </thead>
-
-            <tbody></tbody>
-
-            <tfoot></tfoot>
-        </table>
+        <div id="tradings"></div>
 
         <script src="app/domain/trading/Trading.js"></script>
         <script src="app/controllers/TradingController.js"></script>
         <script src="app/ui/converters/DateConverter.js"></script>
         <script src="app/domain/trading/Tradings.js"></script>
+        <script src="app/ui/views/TradingsView.js"></script>
         <script src="app/app.js"></script>
     </body>
 </html>
