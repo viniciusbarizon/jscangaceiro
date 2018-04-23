@@ -1,7 +1,7 @@
 class TradingController {
     constructor() {
         // doing the bind, $ keep document as his context.
-        let $ = document.querySelector.bind(document);
+        const $ = document.querySelector.bind(document);
 
         this._inputDate = $('#date');
         this._inputQuantity = $('#quantity');
@@ -13,6 +13,10 @@ class TradingController {
 
         // updating the view.
         this._tradingsView.update(this._tradings);
+
+        this._message = new Message();
+        this._messageView = new MessageView('#messageView');
+        this._messageView.update(this._message);
     }
 
     add( event ) {
@@ -20,6 +24,9 @@ class TradingController {
 
         this._tradings.add(this._create());
         this._tradingsView.update(this._tradings);
+
+        this._message.text = 'Trading has been added with success';
+        this._messageView.update(this._message);
 
         this.cleanForm();
     }
