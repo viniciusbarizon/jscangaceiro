@@ -7,7 +7,9 @@ class TradingController {
         this._inputQuantity = $('#quantity');
         this._inputValue = $('#value');
 
-        this._tradings = new Tradings();
+        this._tradings = new Tradings(model => {
+            this._tradingsView.update(model);
+        });
 
         this._tradingsView = new TradingsView('#tradings');
 
@@ -23,7 +25,6 @@ class TradingController {
         event.preventDefault();
 
         this._tradings.add(this._create());
-        this._tradingsView.update(this._tradings);
 
         this._message.text = 'Trading has been added with success';
         this._messageView.update(this._message);
@@ -46,5 +47,12 @@ class TradingController {
             parseInt(this._inputQuantity.value),
             parseFloat(this._inputValue.value)
         );
+    }
+
+    clear() {
+        this._tradings.clear();
+
+        this._message.text = 'Tradings have been cleared with success';
+        this._messageView.update(this._message)
     }
 }

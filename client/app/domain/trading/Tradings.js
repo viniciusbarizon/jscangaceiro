@@ -1,10 +1,14 @@
 class Tradings {
-    constructor() {
+    constructor(trap) {
         this._tradings = [];
+        this._trap = trap;
+
+        Object.freeze(this);
     }
 
     add(trading) {
         this._tradings.push(trading);
+        this._trap(this);
     }
 
     toArray() {
@@ -15,5 +19,10 @@ class Tradings {
         return this._tradings
             .reduce( (total, trading) => 
                 total + trading.volume, 0);
+    }
+
+    clear() {
+        this._tradings.length = 0;
+        this._trap(this);
     }
 }
