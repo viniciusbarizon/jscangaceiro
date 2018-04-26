@@ -7,9 +7,9 @@ class TradingController {
         this._inputQuantity = $('#quantity');
         this._inputValue = $('#value');
 
-        this._tradings = new Tradings(model => {
+        /*this._tradings = new Tradings(model => {
             this._tradingsView.update(model);
-        });
+        });*/
 
         this._tradingsView = new TradingsView('#tradings');
 
