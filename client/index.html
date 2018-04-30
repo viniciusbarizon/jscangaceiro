@@ -59,23 +59,5 @@
         <script src="app/ui/views/MessageView.js"></script>
 
         <script src="app/app.js"></script>
-
-        <script>
-            const trading = new Proxy(new Trading(new Date(), 2, 100), {
-                get: function(target, prop, receiver) {
-                    console.log(`the property "${prop}" fell into a trap.`);
-                    return target[prop];
-                },
-
-                set: function(target, prop, value, receiver) {
-                    console.log(`${prop} store ${target[prop]}, it will get ${value}`);
-                    target[prop] = value;
-                    return target[prop] == value
-                }
-            });
-
-            trading._quantity = 10;
-            trading._value = 100;
-        </script>
     </body>
 </html>

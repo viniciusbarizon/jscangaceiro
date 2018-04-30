@@ -7,9 +7,22 @@ class TradingController {
         this._inputQuantity = $('#quantity');
         this._inputValue = $('#value');
 
-        /*this._tradings = new Tradings(model => {
-            this._tradingsView.update(model);
-        });*/
+        const self = this;
+
+        this._tradings = new Proxy(new Tradings(), {
+            get(target, prop, receiver) {
+                if(typeof(target[prop]) == typeof(Function) && ['add','clear'].includes(prop))
+                    return function() {
+                        console.log(`"${prop}" triggered the trap.`);
+                        target[prop].apply(target, arguments);
+
+                        // target is the real Tradings instance.
+                        self._tradingsView.update(target);
+                    }
+
+                return target[prop];
+            }
+        });
 
         this._tradingsView = new TradingsView('#tradings');
 
