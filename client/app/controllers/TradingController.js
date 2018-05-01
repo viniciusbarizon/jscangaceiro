@@ -7,18 +7,16 @@ class TradingController {
         this._inputQuantity = $('#quantity');
         this._inputValue = $('#value');
 
-        this._tradingsView = new TradingsView('#tradings');
-        this._tradings = ProxyFactory.create(
+        this._tradings = new Bind(
             new Tradings(),
-            ['add', 'clear'],
-            model => this._tradingsView.update(model)
+            new TradingsView('#tradings'),
+            'add', 'clear'
         );
 
-        this._messageView = new MessageView('#messageView');
-        this._message = ProxyFactory.create(
+        this._message = new Bind(
             new Message(),
-            ['text'],
-            model => this._messageView.update(model)
+            new MessageView('#messageView'),
+            'text'
         );
     }
 
