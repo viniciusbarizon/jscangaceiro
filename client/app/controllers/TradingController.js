@@ -7,31 +7,19 @@ class TradingController {
         this._inputQuantity = $('#quantity');
         this._inputValue = $('#value');
 
-        const self = this;
-
-        this._tradings = new Proxy(new Tradings(), {
-            get(target, prop, receiver) {
-                if(typeof(target[prop]) == typeof(Function) && ['add','clear'].includes(prop))
-                    return function() {
-                        console.log(`"${prop}" triggered the trap.`);
-                        target[prop].apply(target, arguments);
-
-                        // target is the real Tradings instance.
-                        self._tradingsView.update(target);
-                    }
-
-                return target[prop];
-            }
-        });
-
         this._tradingsView = new TradingsView('#tradings');
+        this._tradings = ProxyFactory.create(
+            new Tradings(),
+            ['add', 'clear'],
+            model => this._tradingsView.update(model)
+        );
 
-        // updating the view.
-        this._tradingsView.update(this._tradings);
-
-        this._message = new Message();
         this._messageView = new MessageView('#messageView');
-        this._messageView.update(this._message);
+        this._message = ProxyFactory.create(
+            new Message(),
+            ['text'],
+            model => this._messageView.update(model)
+        );
     }
 
     add( event ) {
@@ -39,9 +27,7 @@ class TradingController {
 
         this._tradings.add(this._create());
 
-        this._message.text = 'Trading has been added with success';
-        this._messageView.update(this._message);
-
+        this._message.text = 'Trading has been added successfully';
         this.cleanForm();
     }
 
@@ -64,8 +50,6 @@ class TradingController {
 
     clear() {
         this._tradings.clear();
-
-        this._message.text = 'Tradings have been cleared with success';
-        this._messageView.update(this._message)
+        this._message.text = 'Tradings have been cleared successfully';
     }
 }
