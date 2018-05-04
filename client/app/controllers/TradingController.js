@@ -21,15 +21,26 @@ class TradingController {
     }
 
     add( event ) {
-        event.preventDefault();
+        try {
+            event.preventDefault();
 
-        this._tradings.add(this._create());
+            this._tradings.add(this._create());
+            this._message.text = 'Trading has been added successfully.';
+    
+            this._cleanForm();
+        }
+        catch(err) {
+            console.log(err);
+            console.log(err.stack);
 
-        this._message.text = 'Trading has been added successfully';
-        this.cleanForm();
+            if(err instanceof DateInvalidException )
+                this._message.text = err.message;
+            else
+                this._message.text = 'An unexpected error happened. Please contact the support.';
+        }
     }
 
-    cleanForm() {
+    _cleanForm() {
         this._inputDate.value = '';
         this._inputQuantity.value = 1;
         this._inputValue.value = 0.0;
@@ -48,6 +59,6 @@ class TradingController {
 
     clear() {
         this._tradings.clear();
-        this._message.text = 'Tradings have been cleared successfully';
+        this._message.text = 'Tradings have been cleared successfully.';
     }
 }
