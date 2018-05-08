@@ -18,6 +18,8 @@ class TradingController {
             new MessageView('#messageView'),
             'text'
         );
+
+        this._service = new TradingService();
     }
 
     add( event ) {
@@ -63,26 +65,16 @@ class TradingController {
     }
 
     importTradings() {
-        const xhr = new XMLHttpRequest();
-        xhr.open('GET', 'tradings/week');
-
-        xhr.onreadystatechange = () => {
-            if( xhr.readyState == 4 ) {
-                if( xhr.status == 200) {
-                    JSON
-                        .parse(xhr.responseText)
-                        .map(object => new Trading(new Date(object.date), object.quantity, object.value))
-                        .forEach(trading => this._tradings.add(trading));
-
-                    this._message.text = 'Tradings have been imported successfully';
-                }
-                else {
-                    console.log(xhr.responseText);
-                    this._message.text = 'It is not possible to get the weekly tradings.';
-                }
+        this._service.getTradingsOfTheWeek((err, tradings) => {
+            if(err) {
+                this._message.text = 'It is not possible to get the weekly tradings.';
+                return;
             }
-        };
 
-        xhr.send();
+            tradings.forEach(trading => 
+                this._tradings.add(trading));
+
+            this._message.text = 'Tradings have been imported successfully';
+        });
     }
 }
