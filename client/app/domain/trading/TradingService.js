@@ -1,24 +1,56 @@
 class TradingService {
-    getTradingsOfTheWeek(cb) {
-        const xhr = new XMLHttpRequest();
-        xhr.open('GET', 'tradings/week');
+    constructor() {
+        this._http = new HttpService();
+    }
 
-        xhr.onreadystatechange = () => {
-            if( xhr.readyState == 4 ) {
-                if( xhr.status == 200) {
-                    const tradings = JSON
-                        .parse(xhr.responseText)
-                        .map(object => new Trading(new Date(object.date), object.quantity, object.value));
-                    
-                    cb(null, tradings);
-                }
-                else {
-                    console.log(xhr.responseText);
-                    cb('It is not possible to get the weekly tradings.', null);
-                }
-            }
-        };
+    getTradingsOfTheWeek() {
+        return this._http
+            .get('tradings/week')
+            .then(
+                data => {
+                    const tradings = data.map(object => new Trading(
+                        new Date(object.date), object.quantity, object.value
+                    ));
 
-        xhr.send();
+                    return tradings;
+                },
+                err => {
+                    throw new Error('It is not possible to get the current week tradings.');
+                }
+            );
+    }
+
+    getTradingsOfTheLastWeek() {
+        return this._http
+            .get('tradings/lastWeek')
+            .then(
+                data => {
+                    const tradings = data.map(object => new Trading(
+                        new Date(object.date), object.quantity, object.value
+                    ));
+
+                    return tradings;
+                },
+                err => {
+                    throw new Error('It is not possible to get the last week tradings.');
+                }
+            );
+    }
+
+    getTradingsOfTheWeekBeforeLast() {
+        return this._http
+            .get('tradings/weekBeforeLast')
+            .then(
+                data => {
+                    const tradings = data.map(object => new Trading(
+                        new Date(object.date), object.quantity, object.value
+                    ));
+
+                    return tradings;
+                },
+                err => {
+                    throw new Error('It is not possible to get the week before last tradings.');
+                }
+            );
     }
 }

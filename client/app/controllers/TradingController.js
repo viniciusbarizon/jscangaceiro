@@ -65,16 +65,33 @@ class TradingController {
     }
 
     importTradings() {
-        this._service.getTradingsOfTheWeek((err, tradings) => {
-            if(err) {
-                this._message.text = 'It is not possible to get the weekly tradings.';
-                return;
-            }
+        const tradings = [];
 
-            tradings.forEach(trading => 
-                this._tradings.add(trading));
+        this._service
+            .getTradingsOfTheWeek()
+            .then(
+                week => {
+                    // using spread operator.
+                    tradings.push(...week);
 
-            this._message.text = 'Tradings have been imported successfully';
-        });
+                    // When we return a promise, the return is acessible when you chain a call to then.
+                    return this._service.getTradingsOfTheLastWeek();
+                }
+            )
+            .then(
+                last => {
+                    tradings.push(...last);
+                    return this._service.getTradingsOfTheWeekBeforeLast();
+                },
+            )
+            .then(
+                beforeLast => {
+                    tradings.push(...beforeLast);
+                    tradings.forEach(trading => this._tradings.add(trading));
+
+                    this._message.text = 'Tradings have been imported successfully';
+                },
+            )
+            .catch(err => this._message.text = err);
     }
 }
