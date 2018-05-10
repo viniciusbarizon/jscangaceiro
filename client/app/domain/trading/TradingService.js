@@ -53,4 +53,20 @@ class TradingService {
                 }
             );
     }
+
+    getTradingsFromThePeriod() {
+        return Promise.all([
+            this.getTradingsOfTheWeek(),
+            this.getTradingsOfTheLastWeek(),
+            this.getTradingsOfTheWeekBeforeLast()
+        ])
+        .then(period => {
+            return period
+                .reduce((newArray, item) => newArray.concat(item), [])
+        })
+        .catch(err => {
+            console.log(err);
+            throw new Error('It is not possible to get the period tradings.');
+        });
+    }
 }

@@ -65,33 +65,12 @@ class TradingController {
     }
 
     importTradings() {
-        const tradings = [];
-
         this._service
-            .getTradingsOfTheWeek()
-            .then(
-                week => {
-                    // using spread operator.
-                    tradings.push(...week);
-
-                    // When we return a promise, the return is acessible when you chain a call to then.
-                    return this._service.getTradingsOfTheLastWeek();
-                }
-            )
-            .then(
-                last => {
-                    tradings.push(...last);
-                    return this._service.getTradingsOfTheWeekBeforeLast();
-                },
-            )
-            .then(
-                beforeLast => {
-                    tradings.push(...beforeLast);
-                    tradings.forEach(trading => this._tradings.add(trading));
-
-                    this._message.text = 'Tradings have been imported successfully';
-                },
-            )
+            .getTradingsFromThePeriod()
+            .then(tradings => {
+                tradings.forEach(trading => this._tradings.add(trading))
+                this._message.text = 'Tradings have been imported successfully';
+            })
             .catch(err => this._message.text = err);
     }
 }
