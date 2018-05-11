@@ -68,7 +68,11 @@ class TradingController {
         this._service
             .getTradingsFromThePeriod()
             .then(tradings => {
-                tradings.forEach(trading => this._tradings.add(trading))
+                tradings
+                    .filter(newTrading => !this._tradings.toArray().some(existingTrading =>
+                        newTrading.equals(existingTrading)
+                    ))
+                    .forEach(trading => this._tradings.add(trading))
                 this._message.text = 'Tradings have been imported successfully';
             })
             .catch(err => this._message.text = err);
