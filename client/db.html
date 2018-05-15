@@ -7,7 +7,9 @@
 
     <body>
         <script>
-            const openRequest = indexedDB.open("jscangaceiro", 2);
+            let connection = null;
+
+            const openRequest = indexedDB.open("jscangaceiro", 6);
 
             // dealing with the triad of events!
             openRequest.onupgradeneeded = e => {
@@ -32,7 +34,27 @@
 
             openRequest.onerror = e => {
                 console.log(e.target.error);
+            };
+
+            function add() {
+                // new Trading instance.
+                const trading = new Trading(new Date(), 200, 1);
+
+                const request = connection
+                    .transaction(['tradings'],'readwrite')
+                    .objectStore('tradings')
+                    .add(trading);
+
+                request.onsuccess = e => {
+                    console.log('trading has been saved successfully.');
+                };
+
+                request.onerror = e => {
+                    console.log('It was not possible to save the trading.');
+                };
             }
         </script>
+
+        <script src="app/domain/trading/Trading.js"></script>
     </body>
 </html>
