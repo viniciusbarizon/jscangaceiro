@@ -6,10 +6,12 @@
     </head>
 
     <body>
+        <script src="app/domain/trading/Trading.js"></script>
+
         <script>
             let connection = null;
 
-            const openRequest = indexedDB.open("jscangaceiro", 6);
+            const openRequest = indexedDB.open("jscangaceiro", 3);
 
             // dealing with the triad of events!
             openRequest.onupgradeneeded = e => {
@@ -43,7 +45,7 @@
                 const request = connection
                     .transaction(['tradings'],'readwrite')
                     .objectStore('tradings')
-                    .add(trading);
+                    .add(trading, 3);
 
                 request.onsuccess = e => {
                     console.log('trading has been saved successfully.');
@@ -53,8 +55,39 @@
                     console.log('It was not possible to save the trading.');
                 };
             }
-        </script>
 
-        <script src="app/domain/trading/Trading.js"></script>
+            function listAll() {
+                const tradings = [];
+
+                const cursor = connection
+                    .transaction(['tradings'], 'readwrite')
+                    .objectStore('tradings')
+                    .openCursor();
+
+                cursor.onsuccess = e => {
+                    // object pointer to a trading.
+                    const atual = e.target.result;
+
+                    // if not null, there is still data.
+                    if(atual) {
+                        const trading = new Trading(
+                            atual.value._date,
+                            atual.value._quantity,
+                            atual.value._value
+                        );
+
+                        tradings.push(trading);
+                        atual.continue();
+                    } else {
+                        // when atual is null, there is no data.
+                        console.log(tradings);
+                    }
+                };
+
+                cursor.onerror = e => {
+                    console.log('Error:' + e.target.error.name);
+                }
+            }
+        </script>
     </body>
 </html>
