@@ -18,7 +18,7 @@ const ConnectionFactory = (() => {
                 if(connection)
                     return resolve(connection);
     
-                const openRequest = indexedDB.open('jscangaceiro', 3);
+                const openRequest = indexedDB.open('jscangaceiro', 4);
 
                 openRequest.onupgradeneeded = e => {
                     // pass the connection to the method.
@@ -49,7 +49,7 @@ const ConnectionFactory = (() => {
 
         static _createStores(connection) {
             // iterate in the array to build the stores.
-            store.forEach(store => {
+            stores.forEach(store => {
                 if(connection.objectStoreNames.contains(store))
                     connection.deleteObjectStore(store);
                 
