@@ -39,7 +39,7 @@ class TradingDao {
                     );
 
                     tradings.push(trading);
-                    current.continue;
+                    current.continue();
                 }
                 else {
                     resolve(tradings);
