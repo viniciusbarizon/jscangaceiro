@@ -26,13 +26,12 @@ class TradingController {
     }
 
     _init() {
-        DaoFactory
-            .getTradingDao()
-            .then(dao => dao.listAll())
-            .then(tradings =>
-                tradings.forEach(trading =>
-                    this._tradings.add(trading)))
-            .catch(err => this._message.text = err);
+        getTradingDao()
+        .then(dao => dao.listAll())
+        .then(tradings =>
+            tradings.forEach(trading =>
+                this._tradings.add(trading)))
+        .catch(err => this._message.text = err);
     }
 
     add( event ) {
@@ -42,16 +41,15 @@ class TradingController {
             // trading that we need to include in the Database and in the HTML table.
             const trading = this._create();
 
-            DaoFactory
-                .getTradingDao()
-                .then(dao => dao.add(trading))
-                .then(() => {
-                    // will try to add in the HTML Table only if it was inserted in the Database.
-                    this._tradings.add(trading);
-                    this._message.text = 'Trading has been added successfully';
-                    this._cleanForm();
-                })
-                .catch(err => this._message.text = err);
+            getTradingDao()
+            .then(dao => dao.add(trading))
+            .then(() => {
+                // will try to add in the HTML Table only if it was inserted in the Database.
+                this._tradings.add(trading);
+                this._message.text = 'Trading has been added successfully';
+                this._cleanForm();
+            })
+            .catch(err => this._message.text = err);
         }
         catch(err) {
             console.log(err);
@@ -82,8 +80,12 @@ class TradingController {
     }
 
     clear() {
-        this._tradings.clear();
-        this._message.text = 'Tradings have been cleared successfully.';
+            getTradingDao()
+            .then(dao => dao.clearAll())
+            .then(() => {
+                this._tradings.clear();
+                this._message.text = 'Tradings have been cleared successfully.';
+            });
     }
 
     importTradings() {
