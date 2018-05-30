@@ -1,4 +1,7 @@
-class TradingsView extends View {
+import { View } from './view.js';
+import { DateConverter } from '../converters/DateConverter.js';
+
+export class TradingsView extends View {
     template(model) {
         return `
         <table class="table table-hover table-bordered">

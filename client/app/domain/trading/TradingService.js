@@ -1,4 +1,7 @@
-class TradingService {
+import { HttpService } from '../../util/HttpService.js';
+import { Trading } from './Trading.js';
+
+export class TradingService {
     constructor() {
         this._http = new HttpService();
     }

@@ -1,4 +1,6 @@
-class TradingDao {
+import { Trading } from './Trading.js';
+
+export class TradingDao {
     constructor(connection) {
         this._connection = connection;
         this._store = 'tradings';

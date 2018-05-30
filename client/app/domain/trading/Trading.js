@@ -1,4 +1,4 @@
-class Trading {
+export class Trading {
     constructor( _date, _quantity, _value ) {
         Object.assign( this, { _quantity, _value } );
         this._date = new Date( _date.getTime() );

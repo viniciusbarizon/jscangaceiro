@@ -1,3 +1,5 @@
+import { TradingController } from './controllers/TradingController.js';
+
 // creating the controller instance.
 const controller = new TradingController ();
 const $ = document.querySelector.bind(document);

@@ -8,7 +8,7 @@ const ConnectionFactory = (() => {
     let close = null;
 
     // returns the class.
-    return class ConnectionFactory {
+    export class ConnectionFactory {
         constructor() {
             throw new Error('Não é possível criar instâncias dessa classe');
         }
