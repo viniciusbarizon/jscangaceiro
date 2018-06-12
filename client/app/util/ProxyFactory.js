@@ -1,31 +1,41 @@
-export class ProxyFactory {
-    static create(object, props, trap) {
-        return new Proxy(object, {
-            get(target, prop, receiver) {
-                if(ProxyFactory._isFunction(target[prop]) && props.includes(prop))
-                    return function() {
-                        console.log(`"${prop}" triggered the trap.`);
-                        target[prop].apply(target, arguments);
+System.register([], function (_export, _context) {
+    "use strict";
 
-                        // runs the trap that gets the original object.
-                        trap(target);
-                    }
+    return {
+        setters: [],
+        execute: function () {
+            class ProxyFactory {
+                static create(object, props, trap) {
+                    return new Proxy(object, {
+                        get(target, prop, receiver) {
+                            if (ProxyFactory._isFunction(target[prop]) && props.includes(prop)) return function () {
+                                console.log(`"${prop}" triggered the trap.`);
+                                target[prop].apply(target, arguments);
 
-                return target[prop];
-            },
+                                // runs the trap that gets the original object.
+                                trap(target);
+                            };
 
-            set(target, prop, value, receiver) {
-                const updated = Reflect.set(target, prop, value);
+                            return target[prop];
+                        },
 
-                if(props.includes(prop))
-                    trap(target)
+                        set(target, prop, value, receiver) {
+                            const updated = Reflect.set(target, prop, value);
 
-                return updated;
+                            if (props.includes(prop)) trap(target);
+
+                            return updated;
+                        }
+                    });
+                }
+
+                static _isFunction(fn) {
+                    return typeof fn == typeof Function;
+                }
             }
-        })
-    }
 
-    static _isFunction(fn) {
-        return typeof(fn) == typeof(Function);
-    }
-}
+            _export("ProxyFactory", ProxyFactory);
+        }
+    };
+});
+//# sourceMappingURL=ProxyFactory.js.map

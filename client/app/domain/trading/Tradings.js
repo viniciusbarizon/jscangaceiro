@@ -1,24 +1,34 @@
-export class Tradings {
-    constructor(trap) {
-        this._tradings = [];
-        Object.freeze(this);
-    }
+System.register([], function (_export, _context) {
+    "use strict";
 
-    add(trading) {
-        this._tradings.push(trading);
-    }
+    return {
+        setters: [],
+        execute: function () {
+            class Tradings {
+                constructor(trap) {
+                    this._tradings = [];
+                    Object.freeze(this);
+                }
 
-    toArray() {
-        return [].concat( this._tradings );
-    }
+                add(trading) {
+                    this._tradings.push(trading);
+                }
 
-    get volumeTotal() {
-        return this._tradings
-            .reduce( (total, trading) => 
-                total + trading.volume, 0);
-    }
+                toArray() {
+                    return [].concat(this._tradings);
+                }
 
-    clear() {
-        this._tradings.length = 0;
-    }
-}
+                get volumeTotal() {
+                    return this._tradings.reduce((total, trading) => total + trading.volume, 0);
+                }
+
+                clear() {
+                    this._tradings.length = 0;
+                }
+            }
+
+            _export("Tradings", Tradings);
+        }
+    };
+});
+//# sourceMappingURL=Tradings.js.map
