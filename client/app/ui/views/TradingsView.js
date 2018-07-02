@@ -1,10 +1,10 @@
-System.register(['./view.js', '../converters/DateConverter.js'], function (_export, _context) {
+System.register(['./View.js', '../converters/DateConverter.js'], function (_export, _context) {
     "use strict";
 
     var View, DateConverter;
     return {
-        setters: [function (_viewJs) {
-            View = _viewJs.View;
+        setters: [function (_ViewJs) {
+            View = _ViewJs.View;
         }, function (_convertersDateConverterJs) {
             DateConverter = _convertersDateConverterJs.DateConverter;
         }],

@@ -1,13 +1,6 @@
-import { Tradings } from '../domain/trading/Tradings.js';
-import { TradingsView } from '../ui/views/TradingsView.js';
-import { Message } from '../ui/models/Message.js';
-import { MessageView } from '../ui/views/MessageView.js';
-import { TradingService } from '../domain/trading/TradingService.js';
-import { getTradingDao } from '../util/DaoFactory.js';
-import { DateInvalidException } from '../ui/converters/DateInvalidException.js';
-import { Trading } from '../domain/trading/Trading.js';
-import { Bind } from '../util/Bind.js';
-import { DateConverter } from '../ui/converters/DateConverter.js';
+import { Tradings, TradingService, Trading } from '../domain/index.js';
+import { TradingsView, MessageView, Message, DateInvalidException, DateConverter } from '../ui/index.js';
+import { getTradingDao, Bind } from '../util/index.js';
 
 export class TradingController {
     constructor() {
