@@ -51,19 +51,22 @@ export class TradingService {
             );
     }
 
-    getTradingsFromThePeriod() {
-        return Promise.all([
-            this.getTradingsOfTheWeek(),
-            this.getTradingsOfTheLastWeek(),
-            this.getTradingsOfTheWeekBeforeLast()
-        ])
-        .then(period => period
-            .reduce((newArray, item) => newArray.concat(item), [])
-            .sort((a, b) => b.date.getTime() - a.date.getTime())
-        )
-        .catch(err => {
+    async getTradingsFromThePeriod() {
+        try {
+            let period = await Promise.all([
+                this.getTradingsOfTheWeek(),
+                this.getTradingsOfTheLastWeek(),
+                this.getTradingsOfTheWeekBeforeLast()
+            ]);
+
+            return period
+                .reduce((newArray, item) => newArray.concat(item), [])
+                .sort((a, b) => b.date.getTime() - a.date.getTime());
+        }
+        catch(err)
+        {
             console.log(err);
             throw new Error('It is not possible to get the period tradings.');
-        });
+        }
     }
 }

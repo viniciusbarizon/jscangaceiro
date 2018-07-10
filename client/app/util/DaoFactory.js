@@ -2,8 +2,9 @@ System.register(['./ConnectionFactory.js', '../domain/trading/TradingDao.js'], f
     "use strict";
 
     var ConnectionFactory, TradingDao;
-    function getTradingDao() {
-        return ConnectionFactory.getConnection().then(conn => new TradingDao(conn));
+    async function getTradingDao() {
+        let conn = await ConnectionFactory.getConnection();
+        return new TradingDao(conn);
     }
 
     _export('getTradingDao', getTradingDao);

@@ -37,28 +37,34 @@ System.register(['../domain/index.js', '../ui/index.js', '../util/index.js'], fu
                     this._init();
                 }
 
-                _init() {
-                    getTradingDao().then(dao => dao.listAll()).then(tradings => tradings.forEach(trading => this._tradings.add(trading))).catch(err => this._message.text = err);
+                async _init() {
+                    try {
+                        const dao = await getTradingDao();
+                        const tradings = await dao.listAll();
+                        tradings.forEach(trading => this._tradings.add(trading));
+                    } catch (err) {
+                        // err.message extracts only the exception error message.
+                        this._message.text = err.message;
+                    }
                 }
 
-                add(event) {
+                async add(event) {
                     try {
                         event.preventDefault();
 
                         // trading that we need to include in the Database and in the HTML table.
                         const trading = this._create();
 
-                        getTradingDao().then(dao => dao.add(trading)).then(() => {
-                            // will try to add in the HTML Table only if it was inserted in the Database.
-                            this._tradings.add(trading);
-                            this._message.text = 'Trading has been added successfully';
-                            this._cleanForm();
-                        }).catch(err => this._message.text = err);
-                    } catch (err) {
-                        console.log(err);
-                        console.log(err.stack);
+                        const dao = await getTradingDao();
+                        await dao.add(trading);
 
-                        if (err instanceof DateInvalidException) this._message.text = err.message;else this._message.text = 'An unexpected error happened. Please contact the support.';
+                        // will try to add in the HTML Table only if it was inserted in the Database.
+                        this._tradings.add(trading);
+                        this._message.text = 'Trading has been added successfully';
+
+                        this._cleanForm();
+                    } catch (err) {
+                        this._message.text = err.message;
                     }
                 }
 
@@ -75,11 +81,16 @@ System.register(['../domain/index.js', '../ui/index.js', '../util/index.js'], fu
                     return new Trading(DateConverter.toDate(this._inputDate.value), parseInt(this._inputQuantity.value), parseFloat(this._inputValue.value));
                 }
 
-                clear() {
-                    getTradingDao().then(dao => dao.clearAll()).then(() => {
+                async clear() {
+                    try {
+                        const dao = await getTradingDao();
+                        await dao.clearAll();
+
                         this._tradings.clear();
                         this._message.text = 'Tradings have been cleared successfully.';
-                    });
+                    } catch (err) {
+                        this._message.text = err.message;
+                    }
                 }
 
                 importTradings() {
