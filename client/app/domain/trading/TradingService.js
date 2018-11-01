@@ -2,6 +2,36 @@ System.register(['../../util/HttpService.js', './Trading.js'], function (_export
     "use strict";
 
     var HttpService, Trading;
+
+    function _asyncToGenerator(fn) {
+        return function () {
+            var gen = fn.apply(this, arguments);
+            return new Promise(function (resolve, reject) {
+                function step(key, arg) {
+                    try {
+                        var info = gen[key](arg);
+                        var value = info.value;
+                    } catch (error) {
+                        reject(error);
+                        return;
+                    }
+
+                    if (info.done) {
+                        resolve(value);
+                    } else {
+                        return Promise.resolve(value).then(function (value) {
+                            step("next", value);
+                        }, function (err) {
+                            step("throw", err);
+                        });
+                    }
+                }
+
+                return step("next");
+            });
+        };
+    }
+
     return {
         setters: [function (_utilHttpServiceJs) {
             HttpService = _utilHttpServiceJs.HttpService;
@@ -32,15 +62,23 @@ System.register(['../../util/HttpService.js', './Trading.js'], function (_export
                     });
                 }
 
-                async getTradingsFromThePeriod() {
-                    try {
-                        let period = await Promise.all([this.getTradingsOfTheWeek(), this.getTradingsOfTheLastWeek(), this.getTradingsOfTheWeekBeforeLast()]);
+                getTradingsFromThePeriod() {
+                    var _this = this;
 
-                        return period.reduce((newArray, item) => newArray.concat(item), []).sort((a, b) => b.date.getTime() - a.date.getTime());
-                    } catch (err) {
-                        console.log(err);
-                        throw new Error('It is not possible to get the period tradings.');
-                    }
+                    return _asyncToGenerator(function* () {
+                        try {
+                            let period = yield Promise.all([_this.getTradingsOfTheWeek(), _this.getTradingsOfTheLastWeek(), _this.getTradingsOfTheWeekBeforeLast()]);
+
+                            return period.reduce(function (newArray, item) {
+                                return newArray.concat(item);
+                            }, []).sort(function (a, b) {
+                                return b.date.getTime() - a.date.getTime();
+                            });
+                        } catch (err) {
+                            console.log(err);
+                            throw new Error('It is not possible to get the period tradings.');
+                        }
+                    })();
                 }
             }
 

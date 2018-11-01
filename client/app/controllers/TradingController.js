@@ -2,6 +2,36 @@ System.register(['../domain/index.js', '../ui/index.js', '../util/index.js'], fu
     "use strict";
 
     var Tradings, TradingService, Trading, TradingsView, MessageView, Message, DateInvalidException, DateConverter, getTradingDao, Bind;
+
+    function _asyncToGenerator(fn) {
+        return function () {
+            var gen = fn.apply(this, arguments);
+            return new Promise(function (resolve, reject) {
+                function step(key, arg) {
+                    try {
+                        var info = gen[key](arg);
+                        var value = info.value;
+                    } catch (error) {
+                        reject(error);
+                        return;
+                    }
+
+                    if (info.done) {
+                        resolve(value);
+                    } else {
+                        return Promise.resolve(value).then(function (value) {
+                            step("next", value);
+                        }, function (err) {
+                            step("throw", err);
+                        });
+                    }
+                }
+
+                return step("next");
+            });
+        };
+    }
+
     return {
         setters: [function (_domainIndexJs) {
             Tradings = _domainIndexJs.Tradings;
@@ -37,35 +67,45 @@ System.register(['../domain/index.js', '../ui/index.js', '../util/index.js'], fu
                     this._init();
                 }
 
-                async _init() {
-                    try {
-                        const dao = await getTradingDao();
-                        const tradings = await dao.listAll();
-                        tradings.forEach(trading => this._tradings.add(trading));
-                    } catch (err) {
-                        // err.message extracts only the exception error message.
-                        this._message.text = err.message;
-                    }
+                _init() {
+                    var _this = this;
+
+                    return _asyncToGenerator(function* () {
+                        try {
+                            const dao = yield getTradingDao();
+                            const tradings = yield dao.listAll();
+                            tradings.forEach(function (trading) {
+                                return _this._tradings.add(trading);
+                            });
+                        } catch (err) {
+                            // err.message extracts only the exception error message.
+                            _this._message.text = err.message;
+                        }
+                    })();
                 }
 
-                async add(event) {
-                    try {
-                        event.preventDefault();
+                add(event) {
+                    var _this2 = this;
 
-                        // trading that we need to include in the Database and in the HTML table.
-                        const trading = this._create();
+                    return _asyncToGenerator(function* () {
+                        try {
+                            event.preventDefault();
 
-                        const dao = await getTradingDao();
-                        await dao.add(trading);
+                            // trading that we need to include in the Database and in the HTML table.
+                            const trading = _this2._create();
 
-                        // will try to add in the HTML Table only if it was inserted in the Database.
-                        this._tradings.add(trading);
-                        this._message.text = 'Trading has been added successfully';
+                            const dao = yield getTradingDao();
+                            yield dao.add(trading);
 
-                        this._cleanForm();
-                    } catch (err) {
-                        this._message.text = err.message;
-                    }
+                            // will try to add in the HTML Table only if it was inserted in the Database.
+                            _this2._tradings.add(trading);
+                            _this2._message.text = 'Trading has been added successfully';
+
+                            _this2._cleanForm();
+                        } catch (err) {
+                            _this2._message.text = err.message;
+                        }
+                    })();
                 }
 
                 _cleanForm() {
@@ -81,16 +121,20 @@ System.register(['../domain/index.js', '../ui/index.js', '../util/index.js'], fu
                     return new Trading(DateConverter.toDate(this._inputDate.value), parseInt(this._inputQuantity.value), parseFloat(this._inputValue.value));
                 }
 
-                async clear() {
-                    try {
-                        const dao = await getTradingDao();
-                        await dao.clearAll();
+                clear() {
+                    var _this3 = this;
 
-                        this._tradings.clear();
-                        this._message.text = 'Tradings have been cleared successfully.';
-                    } catch (err) {
-                        this._message.text = err.message;
-                    }
+                    return _asyncToGenerator(function* () {
+                        try {
+                            const dao = yield getTradingDao();
+                            yield dao.clearAll();
+
+                            _this3._tradings.clear();
+                            _this3._message.text = 'Tradings have been cleared successfully.';
+                        } catch (err) {
+                            _this3._message.text = err.message;
+                        }
+                    })();
                 }
 
                 importTradings() {
