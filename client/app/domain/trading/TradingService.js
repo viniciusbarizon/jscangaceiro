@@ -1,7 +1,7 @@
-System.register(['../../util/HttpService.js', './Trading.js'], function (_export, _context) {
+System.register(['../../util/HttpService.js', './Trading.js', '../../util/ApplicationException.js'], function (_export, _context) {
     "use strict";
 
-    var HttpService, Trading;
+    var HttpService, Trading, ApplicationException;
 
     function _asyncToGenerator(fn) {
         return function () {
@@ -37,6 +37,8 @@ System.register(['../../util/HttpService.js', './Trading.js'], function (_export
             HttpService = _utilHttpServiceJs.HttpService;
         }, function (_TradingJs) {
             Trading = _TradingJs.Trading;
+        }, function (_utilApplicationExceptionJs) {
+            ApplicationException = _utilApplicationExceptionJs.ApplicationException;
         }],
         execute: function () {
             class TradingService {
@@ -46,19 +48,19 @@ System.register(['../../util/HttpService.js', './Trading.js'], function (_export
 
                 getTradingsOfTheWeek() {
                     return this._http.get('tradings/week').then(data => data.map(object => new Trading(new Date(object.date), object.quantity, object.value)), err => {
-                        throw new Error('It is not possible to get the current week tradings.');
+                        throw new ApplicationException('It is not possible to get the current week tradings.');
                     });
                 }
 
                 getTradingsOfTheLastWeek() {
                     return this._http.get('tradings/lastWeek').then(data => data.map(object => new Trading(new Date(object.date), object.quantity, object.value)), err => {
-                        throw new Error('It is not possible to get the last week tradings.');
+                        throw new ApplicationException('It is not possible to get the last week tradings.');
                     });
                 }
 
                 getTradingsOfTheWeekBeforeLast() {
                     return this._http.get('tradings/weekBeforeLast').then(data => data.map(object => new Trading(new Date(object.date), object.quantity, object.value)), err => {
-                        throw new Error('It is not possible to get the week before last tradings.');
+                        throw new ApplicationException('It is not possible to get the week before last tradings.');
                     });
                 }
 
@@ -76,7 +78,7 @@ System.register(['../../util/HttpService.js', './Trading.js'], function (_export
                             });
                         } catch (err) {
                             console.log(err);
-                            throw new Error('It is not possible to get the period tradings.');
+                            throw new ApplicationException('It is not possible to get the period tradings.');
                         }
                     })();
                 }

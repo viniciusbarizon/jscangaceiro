@@ -1,6 +1,6 @@
 import { Tradings, TradingService, Trading } from '../domain/index.js';
-import { TradingsView, MessageView, Message, DateInvalidException, DateConverter } from '../ui/index.js';
-import { getTradingDao, Bind } from '../util/index.js';
+import { TradingsView, MessageView, Message, DateConverter } from '../ui/index.js';
+import { getTradingDao, Bind, getExceptionMessage } from '../util/index.js';
 
 export class TradingController {
     constructor() {
@@ -37,7 +37,7 @@ export class TradingController {
         }
         catch(err) {
             // err.message extracts only the exception error message.
-            this._message.text = err.message;
+            this._message.text = getExceptionMessage(err);
         }
     }
 
@@ -58,7 +58,7 @@ export class TradingController {
             this._cleanForm();
         }
         catch(err) {
-            this._message.text = err.message;
+            this._message.text = getExceptionMessage(err);
         }
     }
 
@@ -88,7 +88,7 @@ export class TradingController {
             this._message.text = 'Tradings have been cleared successfully.';
         }
         catch(err) {
-            this._message.text = err.message;
+            this._message.text = getExceptionMessage(err);
         }
     }
 

@@ -1,5 +1,6 @@
 import { HttpService } from '../../util/HttpService.js';
 import { Trading } from './Trading.js';
+import { ApplicationException } from '../../util/ApplicationException.js';
 
 export class TradingService {
     constructor() {
@@ -16,7 +17,7 @@ export class TradingService {
                     ))
                 ,
                 err => {
-                    throw new Error('It is not possible to get the current week tradings.');
+                    throw new ApplicationException('It is not possible to get the current week tradings.');
                 }
             );
     }
@@ -31,7 +32,7 @@ export class TradingService {
                     ))
                 ,
                 err => {
-                    throw new Error('It is not possible to get the last week tradings.');
+                    throw new ApplicationException('It is not possible to get the last week tradings.');
                 }
             );
     }
@@ -46,7 +47,8 @@ export class TradingService {
                     ))
                 ,
                 err => {
-                    throw new Error('It is not possible to get the week before last tradings.');
+                    throw new ApplicationException(
+                        'It is not possible to get the week before last tradings.');
                 }
             );
     }
@@ -66,7 +68,7 @@ export class TradingService {
         catch(err)
         {
             console.log(err);
-            throw new Error('It is not possible to get the period tradings.');
+            throw new ApplicationException('It is not possible to get the period tradings.');
         }
     }
 }

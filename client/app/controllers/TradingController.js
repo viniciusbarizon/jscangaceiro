@@ -1,7 +1,7 @@
 System.register(['../domain/index.js', '../ui/index.js', '../util/index.js'], function (_export, _context) {
     "use strict";
 
-    var Tradings, TradingService, Trading, TradingsView, MessageView, Message, DateInvalidException, DateConverter, getTradingDao, Bind;
+    var Tradings, TradingService, Trading, TradingsView, MessageView, Message, DateConverter, getTradingDao, Bind, getExceptionMessage;
 
     function _asyncToGenerator(fn) {
         return function () {
@@ -41,11 +41,11 @@ System.register(['../domain/index.js', '../ui/index.js', '../util/index.js'], fu
             TradingsView = _uiIndexJs.TradingsView;
             MessageView = _uiIndexJs.MessageView;
             Message = _uiIndexJs.Message;
-            DateInvalidException = _uiIndexJs.DateInvalidException;
             DateConverter = _uiIndexJs.DateConverter;
         }, function (_utilIndexJs) {
             getTradingDao = _utilIndexJs.getTradingDao;
             Bind = _utilIndexJs.Bind;
+            getExceptionMessage = _utilIndexJs.getExceptionMessage;
         }],
         execute: function () {
             class TradingController {
@@ -79,7 +79,7 @@ System.register(['../domain/index.js', '../ui/index.js', '../util/index.js'], fu
                             });
                         } catch (err) {
                             // err.message extracts only the exception error message.
-                            _this._message.text = err.message;
+                            _this._message.text = getExceptionMessage(err);
                         }
                     })();
                 }
@@ -103,7 +103,7 @@ System.register(['../domain/index.js', '../ui/index.js', '../util/index.js'], fu
 
                             _this2._cleanForm();
                         } catch (err) {
-                            _this2._message.text = err.message;
+                            _this2._message.text = getExceptionMessage(err);
                         }
                     })();
                 }
@@ -132,7 +132,7 @@ System.register(['../domain/index.js', '../ui/index.js', '../util/index.js'], fu
                             _this3._tradings.clear();
                             _this3._message.text = 'Tradings have been cleared successfully.';
                         } catch (err) {
-                            _this3._message.text = err.message;
+                            _this3._message.text = getExceptionMessage(err);
                         }
                     })();
                 }
