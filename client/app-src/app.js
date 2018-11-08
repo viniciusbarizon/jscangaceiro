@@ -1,4 +1,5 @@
 import { TradingController } from './controllers/TradingController.js';
+import { debounce } from './util/index.js';
 
 // creating the controller instance.
 const controller = new TradingController ();
@@ -12,4 +13,7 @@ $('#button-clear')
     .addEventListener('click', controller.clear.bind(controller));
 
 $('#button-import')
-    .addEventListener('click', controller.importTradings.bind(controller));
+    .addEventListener('click', debounce(() => {
+        console.log('it ran the debouce operation');
+        controller.importTradings();
+    }, 1000));
