@@ -1,6 +1,8 @@
 import { Tradings, TradingService, Trading } from '../domain/index.js';
 import { TradingsView, MessageView, Message, DateConverter } from '../ui/index.js';
-import { getTradingDao, Bind, getExceptionMessage } from '../util/index.js';
+
+// importing the decorator.
+import { getTradingDao, Bind, getExceptionMessage, debounce } from '../util/index.js';
 
 export class TradingController {
     constructor() {
@@ -41,6 +43,7 @@ export class TradingController {
         }
     }
 
+    @debounce()
     async add( event ) {
         try {
             event.preventDefault();
@@ -92,7 +95,8 @@ export class TradingController {
         }
     }
 
-    importTradings() {
+    @debounce(1500)
+    async importTradings() {
         this._service
             .getTradingsFromThePeriod()
             .then(tradings => {

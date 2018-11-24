@@ -13,7 +13,7 @@ System.register([], function (_export, _context) {
             let close = null;
 
             // returns the class.
-            class ConnectionFactory {
+            let ConnectionFactory = class ConnectionFactory {
                 constructor() {
                     throw new Error('Não é possível criar instâncias dessa classe');
                 }
@@ -63,7 +63,7 @@ System.register([], function (_export, _context) {
                 static closeConnection() {
                     if (connection) close(); // calling the original close.
                 }
-            }
+            };
 
             _export('ConnectionFactory', ConnectionFactory);
         }

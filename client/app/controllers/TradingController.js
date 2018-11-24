@@ -1,37 +1,7 @@
 System.register(['../domain/index.js', '../ui/index.js', '../util/index.js'], function (_export, _context) {
     "use strict";
 
-    var Tradings, TradingService, Trading, TradingsView, MessageView, Message, DateConverter, getTradingDao, Bind, getExceptionMessage;
-
-    function _asyncToGenerator(fn) {
-        return function () {
-            var gen = fn.apply(this, arguments);
-            return new Promise(function (resolve, reject) {
-                function step(key, arg) {
-                    try {
-                        var info = gen[key](arg);
-                        var value = info.value;
-                    } catch (error) {
-                        reject(error);
-                        return;
-                    }
-
-                    if (info.done) {
-                        resolve(value);
-                    } else {
-                        return Promise.resolve(value).then(function (value) {
-                            step("next", value);
-                        }, function (err) {
-                            step("throw", err);
-                        });
-                    }
-                }
-
-                return step("next");
-            });
-        };
-    }
-
+    var Tradings, TradingService, Trading, TradingsView, MessageView, Message, DateConverter, getTradingDao, Bind, getExceptionMessage, debounce;
     return {
         setters: [function (_domainIndexJs) {
             Tradings = _domainIndexJs.Tradings;
@@ -46,9 +16,70 @@ System.register(['../domain/index.js', '../ui/index.js', '../util/index.js'], fu
             getTradingDao = _utilIndexJs.getTradingDao;
             Bind = _utilIndexJs.Bind;
             getExceptionMessage = _utilIndexJs.getExceptionMessage;
+            debounce = _utilIndexJs.debounce;
         }],
         execute: function () {
-            class TradingController {
+            function _asyncToGenerator(fn) {
+                return function () {
+                    var gen = fn.apply(this, arguments);
+                    return new Promise(function (resolve, reject) {
+                        function step(key, arg) {
+                            try {
+                                var info = gen[key](arg);
+                                var value = info.value;
+                            } catch (error) {
+                                reject(error);
+                                return;
+                            }
+
+                            if (info.done) {
+                                resolve(value);
+                            } else {
+                                return Promise.resolve(value).then(function (value) {
+                                    step("next", value);
+                                }, function (err) {
+                                    step("throw", err);
+                                });
+                            }
+                        }
+
+                        return step("next");
+                    });
+                };
+            }
+
+            function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+                var desc = {};
+                Object['ke' + 'ys'](descriptor).forEach(function (key) {
+                    desc[key] = descriptor[key];
+                });
+                desc.enumerable = !!desc.enumerable;
+                desc.configurable = !!desc.configurable;
+
+                if ('value' in desc || desc.initializer) {
+                    desc.writable = true;
+                }
+
+                desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+                    return decorator(target, property, desc) || desc;
+                }, desc);
+
+                if (context && desc.initializer !== void 0) {
+                    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+                    desc.initializer = undefined;
+                }
+
+                if (desc.initializer === void 0) {
+                    Object['define' + 'Property'](target, property, desc);
+                    desc = null;
+                }
+
+                return desc;
+            }
+
+            var _dec, _dec2, _desc, _value, _class;
+
+            let TradingController = (_dec = debounce(), _dec2 = debounce(1500), (_class = class TradingController {
                 constructor() {
                     // doing the bind, $ keep document as his context.
                     const $ = document.querySelector.bind(document);
@@ -138,12 +169,24 @@ System.register(['../domain/index.js', '../ui/index.js', '../util/index.js'], fu
                 }
 
                 importTradings() {
-                    this._service.getTradingsFromThePeriod().then(tradings => {
-                        tradings.filter(newTrading => !this._tradings.toArray().some(existingTrading => newTrading.equals(existingTrading))).forEach(trading => this._tradings.add(trading));
-                        this._message.text = 'Tradings have been imported successfully';
-                    }).catch(err => this._message.text = err);
+                    var _this4 = this;
+
+                    return _asyncToGenerator(function* () {
+                        _this4._service.getTradingsFromThePeriod().then(function (tradings) {
+                            tradings.filter(function (newTrading) {
+                                return !_this4._tradings.toArray().some(function (existingTrading) {
+                                    return newTrading.equals(existingTrading);
+                                });
+                            }).forEach(function (trading) {
+                                return _this4._tradings.add(trading);
+                            });
+                            _this4._message.text = 'Tradings have been imported successfully';
+                        }).catch(function (err) {
+                            return _this4._message.text = err;
+                        });
+                    })();
                 }
-            }
+            }, (_applyDecoratedDescriptor(_class.prototype, 'add', [_dec], Object.getOwnPropertyDescriptor(_class.prototype, 'add'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'importTradings', [_dec2], Object.getOwnPropertyDescriptor(_class.prototype, 'importTradings'), _class.prototype)), _class));
 
             _export('TradingController', TradingController);
         }
