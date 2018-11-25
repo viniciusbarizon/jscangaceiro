@@ -2,16 +2,12 @@ import { Tradings, TradingService, Trading } from '../domain/index.js';
 import { TradingsView, MessageView, Message, DateConverter } from '../ui/index.js';
 
 // importing the decorator.
-import { getTradingDao, Bind, getExceptionMessage, debounce } from '../util/index.js';
+import { getTradingDao, Bind, getExceptionMessage, debounce, controller } from '../util/index.js';
 
+@controller( '#date', '#quantity', '#value' )
 export class TradingController {
-    constructor() {
-        // doing the bind, $ keep document as his context.
-        const $ = document.querySelector.bind(document);
-
-        this._inputDate = $('#date');
-        this._inputQuantity = $('#quantity');
-        this._inputValue = $('#value');
+    constructor( _inputDate, _inputQuantity, _inputValue ) {
+        Object.assign(this, { _inputDate, _inputQuantity, _inputValue } )
 
         this._tradings = new Bind(
             new Tradings(),

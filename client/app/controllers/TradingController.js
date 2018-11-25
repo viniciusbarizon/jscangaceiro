@@ -1,7 +1,7 @@
 System.register(['../domain/index.js', '../ui/index.js', '../util/index.js'], function (_export, _context) {
     "use strict";
 
-    var Tradings, TradingService, Trading, TradingsView, MessageView, Message, DateConverter, getTradingDao, Bind, getExceptionMessage, debounce;
+    var Tradings, TradingService, Trading, TradingsView, MessageView, Message, DateConverter, getTradingDao, Bind, getExceptionMessage, debounce, controller;
     return {
         setters: [function (_domainIndexJs) {
             Tradings = _domainIndexJs.Tradings;
@@ -17,6 +17,7 @@ System.register(['../domain/index.js', '../ui/index.js', '../util/index.js'], fu
             Bind = _utilIndexJs.Bind;
             getExceptionMessage = _utilIndexJs.getExceptionMessage;
             debounce = _utilIndexJs.debounce;
+            controller = _utilIndexJs.controller;
         }],
         execute: function () {
             function _asyncToGenerator(fn) {
@@ -77,16 +78,11 @@ System.register(['../domain/index.js', '../ui/index.js', '../util/index.js'], fu
                 return desc;
             }
 
-            var _dec, _dec2, _desc, _value, _class;
+            var _dec, _dec2, _dec3, _class, _desc, _value, _class2;
 
-            let TradingController = (_dec = debounce(), _dec2 = debounce(1500), (_class = class TradingController {
-                constructor() {
-                    // doing the bind, $ keep document as his context.
-                    const $ = document.querySelector.bind(document);
-
-                    this._inputDate = $('#date');
-                    this._inputQuantity = $('#quantity');
-                    this._inputValue = $('#value');
+            let TradingController = (_dec = controller('#date', '#quantity', '#value'), _dec2 = debounce(), _dec3 = debounce(1500), _dec(_class = (_class2 = class TradingController {
+                constructor(_inputDate, _inputQuantity, _inputValue) {
+                    Object.assign(this, { _inputDate, _inputQuantity, _inputValue });
 
                     this._tradings = new Bind(new Tradings(), new TradingsView('#tradings'), 'add', 'clear');
 
@@ -186,7 +182,7 @@ System.register(['../domain/index.js', '../ui/index.js', '../util/index.js'], fu
                         });
                     })();
                 }
-            }, (_applyDecoratedDescriptor(_class.prototype, 'add', [_dec], Object.getOwnPropertyDescriptor(_class.prototype, 'add'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'importTradings', [_dec2], Object.getOwnPropertyDescriptor(_class.prototype, 'importTradings'), _class.prototype)), _class));
+            }, (_applyDecoratedDescriptor(_class2.prototype, 'add', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'add'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'importTradings', [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, 'importTradings'), _class2.prototype)), _class2)) || _class);
 
             _export('TradingController', TradingController);
         }
