@@ -2,7 +2,7 @@ import { Tradings, TradingService, Trading } from '../domain/index.js';
 import { TradingsView, MessageView, Message, DateConverter } from '../ui/index.js';
 
 // importing the decorator.
-import { getTradingDao, Bind, getExceptionMessage, debounce, controller } from '../util/index.js';
+import { getTradingDao, Bind, getExceptionMessage, debounce, controller, bindEvent } from '../util/index.js';
 
 @controller( '#date', '#quantity', '#value' )
 export class TradingController {
@@ -39,6 +39,7 @@ export class TradingController {
         }
     }
 
+    @bindEvent('submit', '.form')
     @debounce()
     async add( event ) {
         try {
@@ -78,6 +79,7 @@ export class TradingController {
         );
     }
 
+    @bindEvent('click', '#button-clear')
     async clear() {
         try {
             const dao = await getTradingDao();
@@ -91,6 +93,7 @@ export class TradingController {
         }
     }
 
+    @bindEvent('click', '#button-import')
     @debounce(1500)
     async importTradings() {
         this._service
