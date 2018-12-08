@@ -9,7 +9,18 @@ System.register([], function (_export, _context) {
             const originalConstructor = constructor;
 
             const newConstructor = function () {
-                return new originalConstructor(...elements);
+                const instance = new originalConstructor(...elements);
+
+                Object
+                    .getOwnPropertyNames(originalConstructor.prototype)
+                    .forEach(property => {
+                        if(Reflect.hasMetadata('bindEvent', instance, property)) {
+                            connectEvent(instance, Reflect.getMetadata('bindEvent', instance, property));
+                        }
+                    });
+                newConstructor.prototype = originalConstructor.prototype;
+
+                return newConstructor;
             };
 
             // adjusting the prototype.
@@ -17,6 +28,15 @@ System.register([], function (_export, _context) {
 
             return newConstructor;
         };
+
+        function connectEvent(instance, metadata) {
+            document
+                .querySelector(metadata.selector)
+                .addEventListener(metadata.event, event => {
+                    if(metadata.event) event.preventDefault();
+                    instance[metadata.propertyKey](event)
+                });
+        }
     }
 
     _export("controller", controller);

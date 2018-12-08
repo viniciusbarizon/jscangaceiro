@@ -56,7 +56,7 @@ export class TradingService {
     async getTradingsFromThePeriod() {
         try {
             let period = await Promise.all([
-                this.getTradingsOfTheWeek(),
+                /*this.getTradingsOfTheWeek(),*/
                 this.getTradingsOfTheLastWeek(),
                 this.getTradingsOfTheWeekBeforeLast()
             ]);

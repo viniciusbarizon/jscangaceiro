@@ -68,7 +68,9 @@ System.register(['../../util/HttpService.js', './Trading.js', '../../util/Applic
 
                     return _asyncToGenerator(function* () {
                         try {
-                            let period = yield Promise.all([_this.getTradingsOfTheWeek(), _this.getTradingsOfTheLastWeek(), _this.getTradingsOfTheWeekBeforeLast()]);
+                            let period = yield Promise.all([
+                            /*this.getTradingsOfTheWeek(),*/
+                            _this.getTradingsOfTheLastWeek(), _this.getTradingsOfTheWeekBeforeLast()]);
 
                             return period.reduce(function (newArray, item) {
                                 return newArray.concat(item);
