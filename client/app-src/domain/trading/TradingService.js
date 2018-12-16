@@ -9,7 +9,7 @@ export class TradingService {
 
     getTradingsOfTheWeek() {
         return this._http
-            .get('tradings/week')
+            .get('http://localhost:3000/tradings/week')
             .then(
                 data => data.map(object =>
                     new Trading(
@@ -24,7 +24,7 @@ export class TradingService {
 
     getTradingsOfTheLastWeek() {
         return this._http
-            .get('tradings/lastWeek')
+            .get('http://localhost:3000/tradings/lastWeek')
             .then(
                 data => data.map(object =>
                     new Trading(
@@ -39,7 +39,7 @@ export class TradingService {
 
     getTradingsOfTheWeekBeforeLast() {
         return this._http
-            .get('tradings/weekBeforeLast')
+            .get('http://localhost:3000/tradings/weekBeforeLast')
             .then(
                 data => data.map(object =>
                     new Trading(

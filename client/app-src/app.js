@@ -19,5 +19,5 @@ const config = {
     body
 };
 
-fetch('/tradings', config)
+fetch('http://localhost:3000/tradings', config)
     .then(() => console.log('Data has been sent successfully'));

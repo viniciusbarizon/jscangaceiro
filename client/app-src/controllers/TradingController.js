@@ -43,6 +43,7 @@ export class TradingController {
     @debounce()
     async add( event ) {
         try {
+            console.log('teste');
             event.preventDefault();
 
             // trading that we need to include in the Database and in the HTML table.
