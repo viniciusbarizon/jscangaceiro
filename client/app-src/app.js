@@ -1,13 +1,17 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
 
-import 'jquery/dist/jquery.js';
 import 'bootstrap/js/modal.js';
 
 import '../css/mycss.css';
 
 import { TradingController } from './controllers/TradingController.js';
 import { Trading } from './domain/index.js';
+
+$('h1').on('click',() => alert('clicked'));
+
+console.log('Função adicionada pelo bootstrap');
+console.log($('h1').modal);
 
 // creating the controller instance.
 const controller = new TradingController ();
