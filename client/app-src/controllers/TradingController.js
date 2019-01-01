@@ -1,4 +1,4 @@
-import { Tradings, TradingService, Trading } from '../domain/index.js';
+import { Tradings, Trading } from '../domain/index.js';
 import { TradingsView, MessageView, Message, DateConverter } from '../ui/index.js';
 
 // importing the decorator.
@@ -20,8 +20,6 @@ export class TradingController {
             new MessageView('#messageView'),
             'text'
         );
-
-        this._service = new TradingService();
 
         // call the method for initialization.
         this._init();
@@ -95,18 +93,26 @@ export class TradingController {
     }
 
     @bindEvent('click', '#button-import')
-    @debounce(1500)
+    @debounce()
     async importTradings() {
-        this._service
-            .getTradingsFromThePeriod()
-            .then(tradings => {
-                tradings
-                    .filter(newTrading => !this._tradings.toArray().some(existingTrading =>
-                        newTrading.equals(existingTrading)
-                    ))
-                    .forEach(trading => this._tradings.add(trading))
-                this._message.text = 'Tradings have been imported successfully';
-            })
-            .catch(err => this._message.text = err);
+        try {
+            // Lazy loading of the Module.
+            const { TradingService } = await import('../domain/trading/TradingService');
+
+            const service = new TradingService();
+
+            const tradings = await service.getTradingsFromThePeriod();
+            console.log(tradings);
+
+            tradings.filter(newTrading =>
+                !this._tradings.toArray().some(existingTrading => newTrading.equals(existingTrading))
+            )
+            .forEach(trading => this._tradings.add(trading));
+
+            this._message.text = 'Tradings have been imported successfully';
+        }
+        catch(err) {
+            this._message.text = getExceptionMessage(err);
+        }
     }
 }
